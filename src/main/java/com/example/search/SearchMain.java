@@ -38,9 +38,15 @@ public class SearchMain {
     private static String filePdfPath = "/Users/yichuan/Documents/test/从Lucene到Elasticsearch：全文检索实战 (姚攀) (z-lib.org).pdf";
     private static String htmlPath = "/Users/yichuan/Documents/test/今日头条.html";
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         try {
-            readIndex("汽车联盟");
+            String path1 = "/Users/yichuan/Documents/test/世界美术全集绘画卷 by 樊文龙扫描版 z-lib.pdf";
+            //createIndex(path1);
+            System.out.println("==========查询=========");
+            readIndex("奇妙变幻");
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -183,17 +189,19 @@ public class SearchMain {
      *
      * @throws Exception
      */
-    private static void createIndex() throws Exception {
+    private static void createIndex(String filePath) throws Exception {
         // 1采集数据
         List<Document> documents = new ArrayList<>();
-        String content = TikaUtil.parsePdf(TikaUtil.path1);
+        String content = TikaUtil.parsePdf(filePath);
+        //全部替换
+        content.replaceAll("\n\n\n", "");
         List<String> stringList = Arrays.asList(content.split("\n"));
         System.out.println(stringList.size());
         int i = 0;
         for (String line : stringList) {
             Document document = new Document();
             i++;
-            if (!line.isBlank()) {
+            if (!line.isBlank() && !line.endsWith("\n") && line.length() >= 3) {
                 document.add(new TextField("id", "id" + String.valueOf(i), Field.Store.YES));
                 document.add(new TextField("title", "978-7-111-44565-4", Field.Store.YES));
                 document.add(new TextField("content", line.trim(), Field.Store.YES));
@@ -211,7 +219,9 @@ public class SearchMain {
         config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
         //6创建IndexWriter写入对象
         IndexWriter indexWriter = new IndexWriter(directory, config);
+
         // 删除已有索引
+        indexWriter.deleteAll();
         indexWriter.addDocuments(documents);
         // 提交
         indexWriter.commit();

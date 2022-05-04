@@ -20,14 +20,15 @@ import java.util.List;
  * 文件内容抽取
  */
 public class TikaUtil {
-    public static String path1 = "/Users/yichuan/Documents/test/画解保时捷揭秘保时捷汽车独门绝技pdf 画解保时捷揭秘保时捷汽车独门绝技pdf z-lib.pdf";
+
     private static String path2 = "/Users/yichuan/Documents/test/test.txt";
     private static String pathDoc = "/Users/yichuan/Documents/test/test.doc";
 
     public static void main(String[] args) throws Exception {
         //解析PDF
+        String path1 = "/Users/yichuan/Documents/test/画解保时捷揭秘保时捷汽车独门绝技pdf 画解保时捷揭秘保时捷汽车独门绝技pdf z-lib.pdf";
 //        getContext(pathDoc);
-        String content = TikaUtil.parsePdf(TikaUtil.path1);
+        String content = TikaUtil.parsePdf(path1);
         List<String> stringList = Arrays.asList(content.split("\n"));
         System.out.println(stringList.size());
         for (String line : stringList) {

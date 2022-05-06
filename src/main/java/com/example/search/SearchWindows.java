@@ -240,7 +240,7 @@ public class SearchWindows {
             public void setValue(Object value) {
                 String text = "";
                 if (value.toString().contains(queryKey)) {
-                    String colorText = "<font size='4' color='red'><strong>" + queryKey + "</strong></font>";
+                    String colorText = "<font size='3' color='red'><strong>" + queryKey + "</strong></font>";
                     String replaceText = value.toString().replaceAll(queryKey, colorText);
                     text = "<html>" + replaceText + "</html>";
                 } else {

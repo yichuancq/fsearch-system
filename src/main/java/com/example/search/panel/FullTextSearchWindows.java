@@ -113,6 +113,10 @@ public class FullTextSearchWindows {
     private void query(String queryKey) {
         //执行一个任务
         try {
+            if (queryKey == null || queryKey.length() == 0) {
+                jTextField.setText("搜索内容为空");
+                return;
+            }
             //获得表格模型
             task(queryKey);
         } catch (Exception e) {

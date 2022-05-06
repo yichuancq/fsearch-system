@@ -1,5 +1,6 @@
 package com.example.search;
 
+import com.example.search.util.TikaUtil;
 import com.example.search.vo.ParseVo;
 import info.monitorenter.cpdetector.io.*;
 import org.apache.lucene.analysis.Analyzer;

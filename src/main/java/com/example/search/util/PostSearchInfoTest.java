@@ -1,4 +1,4 @@
-package com.example.search;
+package com.example.search.util;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;

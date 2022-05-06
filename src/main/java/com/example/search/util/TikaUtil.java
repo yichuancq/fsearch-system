@@ -1,4 +1,4 @@
-package com.example.search;
+package com.example.search.util;
 
 import com.example.search.vo.ParseVo;
 import org.apache.tika.Tika;

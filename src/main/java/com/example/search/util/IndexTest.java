@@ -1,6 +1,5 @@
-package com.example.search;
+package com.example.search.util;
 
-import com.example.search.util.TikaUtil;
 import com.example.search.vo.ParseVo;
 import info.monitorenter.cpdetector.io.*;
 import org.apache.lucene.analysis.Analyzer;
@@ -33,7 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * option+enter 导入包
  */
-public class SearchMain {
+public class IndexTest {
     /**
      *
      */

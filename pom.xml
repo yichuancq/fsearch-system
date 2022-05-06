@@ -125,7 +125,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.example.search.SearchMain</mainClass>
+                            <mainClass>com.example.search.SearchWindows</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

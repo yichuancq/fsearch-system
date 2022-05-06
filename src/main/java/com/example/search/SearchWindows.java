@@ -1,4 +1,4 @@
-package com.example.search.panel;
+package com.example.search;
 
 import com.example.search.vo.FullTextVo;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 /**
  *
  */
-public class FullTextSearchWindows {
+public class SearchWindows {
     private static final String indexPath = "/Users/yichuan/Documents/test";
     private final JFrame jFrame;
     private final int windowWidth = 1000;
@@ -51,7 +51,7 @@ public class FullTextSearchWindows {
     //
     public static void main(String[] args) {
 
-        new FullTextSearchWindows();
+        new SearchWindows();
 
     }
 
@@ -275,7 +275,7 @@ public class FullTextSearchWindows {
 
     }
 
-    public FullTextSearchWindows() {
+    public SearchWindows() {
         //创建一个JFrame对象
         jFrame = new JFrame();
         //设置窗口大小和位置

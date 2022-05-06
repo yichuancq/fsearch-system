@@ -118,7 +118,7 @@ public class SearchWindows {
                 return;
             }
             //获得表格模型
-            task(queryKey);
+            task(queryKey.trim());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -237,11 +237,16 @@ public class SearchWindows {
         TableColumn contentColumn = table.getColumn("关键内容");
         //绘制列的字体颜色
         DefaultTableCellRenderer fontColor = new DefaultTableCellRenderer() {
-            public void setValue(Object value) { //重写setValue方法，从而可以动态设置列单元字体颜色
-                //获取列中的值
-                String val = value.toString();
-                setForeground((val.contains(queryKey)) ? Color.red : Color.black); //如果月薪大于3099元，就将字体设置为红色
-                setText((value == null) ? "" : value.toString());
+            public void setValue(Object value) {
+                String text = "";
+                if (value.toString().contains(queryKey)) {
+                    String colorText = "<font size='4' color='red'><strong>" + queryKey + "</strong></font>";
+                    String replaceText = value.toString().replaceAll(queryKey, colorText);
+                    text = "<html>" + replaceText + "</html>";
+                } else {
+                    text = value.toString();
+                }
+                setText((value == null) ? "" : text);
             }
         };
         contentColumn.setCellRenderer(fontColor);

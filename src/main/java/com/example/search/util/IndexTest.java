@@ -45,10 +45,11 @@ public class IndexTest {
      */
     public static void main(String[] args) {
         try {
-            String path1 = "/Users/yichuan/Documents/test/世界美术全集绘画卷 by 樊文龙扫描版 z-lib.pdf";
+            //String path1 = "/Users/yichuan/Documents/test/世界美术全集绘画卷 by 樊文龙扫描版 z-lib.pdf";
+            String path1 = "/Users/yichuan/Documents/test/Spring Cloud Alibaba 微服务原理与实战 (谭锋) (z-lib.org).pdf";
             createIndex(path1);
             System.out.println("==========查询=========");
-            readIndex("奇妙变幻");
+            readIndex("微服务");
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -220,8 +221,7 @@ public class IndexTest {
                 document.add(new TextField("content", line.trim(), Field.Store.YES));
                 //	pdf:docinfo:created
                 document.add(new TextField("contentType", contentType.get(), Field.Store.YES));
-                document.add(new TextField("createdTime",
-                        parseVo.getMetadataNamesMap().get("pdf:docinfo:created").toString(), Field.Store.YES));
+                document.add(new TextField("createdTime", parseVo.getMetadataNamesMap().get("pdf:docinfo:created").toString(), Field.Store.YES));
                 System.out.println("row:\t" + line.trim());
                 documents.add(document);
             }

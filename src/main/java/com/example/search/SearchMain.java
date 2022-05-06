@@ -1,5 +1,6 @@
 package com.example.search;
 
+import com.example.search.vo.ParseVo;
 import info.monitorenter.cpdetector.io.*;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -26,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * option+enter 导入包
@@ -44,7 +46,7 @@ public class SearchMain {
     public static void main(String[] args) {
         try {
             String path1 = "/Users/yichuan/Documents/test/世界美术全集绘画卷 by 樊文龙扫描版 z-lib.pdf";
-            //createIndex(path1);
+            createIndex(path1);
             System.out.println("==========查询=========");
             readIndex("奇妙变幻");
         } catch (Exception exception) {
@@ -162,7 +164,7 @@ public class SearchMain {
         // 索引搜索工具
         IndexSearcher searcher = new IndexSearcher(reader);
         //如果想同时匹配多个
-        QueryParser parser = new MultiFieldQueryParser(new String[]{"title", "content", "id"}, new StandardAnalyzer());
+        QueryParser parser = new MultiFieldQueryParser(new String[]{"title", "content", "id", "contentType"}, new StandardAnalyzer());
         // 创建查询对象
         Query query = parser.parse(queryKey);
         TopDocs topDocs = searcher.search(query, 20);
@@ -171,7 +173,6 @@ public class SearchMain {
         // 获取得分文档对象（ScoreDoc）数组.SocreDoc中包含：文档的编号、文档的得分
         ScoreDoc[] scoreDocs = topDocs.scoreDocs;
         for (ScoreDoc scoreDoc : scoreDocs) {
-            System.out.println(scoreDoc.toString());
             // 取出文档编号
             int docID = scoreDoc.doc;
             // 根据编号去找文档
@@ -179,6 +180,7 @@ public class SearchMain {
             System.out.println("id: " + doc.get("id"));
             System.out.println("title: " + doc.get("title"));
             System.out.println("content: " + doc.get("content"));
+            System.out.println("contentType: " + doc.get("contentType"));
             // 取出文档得分
             System.out.println("得分： " + scoreDoc.score);
         }
@@ -192,7 +194,18 @@ public class SearchMain {
     private static void createIndex(String filePath) throws Exception {
         // 1采集数据
         List<Document> documents = new ArrayList<>();
-        String content = TikaUtil.parsePdf(filePath);
+        ParseVo parseVo = TikaUtil.parsePdf(filePath);
+        String content = parseVo.getContent();
+        AtomicReference<String> contentType = new AtomicReference<>("");
+        parseVo.getMetadataNamesMap().forEach((key, value) -> {
+            System.out.println("key:\t" + key);
+            System.out.println("value:\t" + value);
+            //Content-Type : application/pdf
+            if (key.equals("Content-Type")) {
+                contentType.set((String) value);
+
+            }
+        });
         //全部替换
         content.replaceAll("\n\n\n", "");
         List<String> stringList = Arrays.asList(content.split("\n"));
@@ -205,6 +218,10 @@ public class SearchMain {
                 document.add(new TextField("id", "id" + String.valueOf(i), Field.Store.YES));
                 document.add(new TextField("title", "978-7-111-44565-4", Field.Store.YES));
                 document.add(new TextField("content", line.trim(), Field.Store.YES));
+                //	pdf:docinfo:created
+                document.add(new TextField("contentType", contentType.get(), Field.Store.YES));
+                document.add(new TextField("createdTime",
+                        parseVo.getMetadataNamesMap().get("pdf:docinfo:created").toString(), Field.Store.YES));
                 System.out.println("row:\t" + line.trim());
                 documents.add(document);
             }

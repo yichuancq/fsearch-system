@@ -1,5 +1,6 @@
 package com.example.search;
 
+import com.example.search.vo.ParseVo;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,8 +30,8 @@ public class TikaUtil {
         //解析PDF
         String path1 = "/Users/yichuan/Documents/test/画解保时捷揭秘保时捷汽车独门绝技pdf 画解保时捷揭秘保时捷汽车独门绝技pdf z-lib.pdf";
 //        getContext(pathDoc);
-        String content = TikaUtil.parsePdf(path1);
-        List<String> stringList = Arrays.asList(content.split("\n"));
+        ParseVo parseVo = TikaUtil.parsePdf(path1);
+        List<String> stringList = Arrays.asList(parseVo.getContent().split("\n"));
         System.out.println(stringList.size());
         for (String line : stringList) {
             if (!line.isBlank()) {
@@ -72,8 +74,8 @@ public class TikaUtil {
      * @return
      * @throws Exception
      */
-    public static String parsePdf(final String filaPath) throws Exception {
-        String content = "";
+    public static ParseVo parsePdf(final String filaPath) throws Exception {
+
         try {
             BodyContentHandler handler = new BodyContentHandler();
             Metadata metadata = new Metadata();
@@ -84,19 +86,22 @@ public class TikaUtil {
             pdfparser.setPDFParserConfig(config);//set
             pdfparser.parse(inputStream, handler, metadata, parseContext);
             //getting the content of the document
-            content = handler.toString();
+
             // System.out.println("Contents of the PDF :" + handler);
             // 元数据提取
             System.out.println("Metadata of the PDF:");
             String[] metadataNames = metadata.names();
+            HashMap hashMapMetadataNames = new HashMap();
             for (String name : metadataNames) {
-                System.out.println(name + " : " + metadata.get(name));
+                //System.out.println(name + " : " + metadata.get(name));
+                hashMapMetadataNames.put(name, metadata.get(name));
             }
-            return content;
+            ParseVo parseVo = new ParseVo(handler.toString(), hashMapMetadataNames);
+            return parseVo;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return content;
+        return new ParseVo();
     }
 
     /**

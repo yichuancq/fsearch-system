@@ -4,7 +4,7 @@
 
 ##### 搜索界面 UI
 
-<img src="https://github.com/yichuancq/fsearch-system/blob/master/src/main/resources/filesearch.jpg" width="50%" height="50%">
+<img src="https://github.com/yichuancq/fsearch-system/blob/master/src/main/resources/filesearch.jpg" width="100%" height="100%">
 
 ##### 抽取pdf
 

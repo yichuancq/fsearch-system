@@ -2,6 +2,10 @@
 
 基于开源搜索引擎的pdf文件内容抽取和搜索文件内容的工具
 
+##### 搜索界面 UI
+
+<img src="https://github.com/yichuancq/fsearch-system/blob/master/src/main/resources/filesearch.jpg" width="50%" height="50%">
+
 ##### 抽取pdf
 
 ```java
